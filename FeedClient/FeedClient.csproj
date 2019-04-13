@@ -46,6 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO.cs" />
+    <Compile Include="Feed\FeedFetcher.cs" />
+    <Compile Include="Feed\FeedParser.cs" />
+    <Compile Include="Feed\Model\Filter.cs" />
+    <Compile Include="Feed\Model\User.cs" />
+    <Compile Include="Feed\Model\Feed.cs" />
+    <Compile Include="Feed\Model\NewsItem.cs" />
+    <Compile Include="Feed\Parser\AtomFeedParser.cs" />
+    <Compile Include="Feed\Parser\FeedParserFacade.cs" />
+    <Compile Include="Feed\Parser\IFeedParser.cs" />
+    <Compile Include="Feed\Parser\RssFeedReader.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
