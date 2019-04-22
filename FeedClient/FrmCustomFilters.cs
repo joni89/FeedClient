@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace FeedClient
 {
-    public partial class Form1 : Form
+    public partial class FrmCustomFilters : Form
     {
-        public Form1()
+        public FrmCustomFilters()
         {
             InitializeComponent();
         }
