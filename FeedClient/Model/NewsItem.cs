@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FeedClient.Feed.Model
+namespace FeedClient.Model
 {
     class NewsItem
     {
 
-        private long id;
+        private long? id;
+        private string guid;
         private string title;
         private string contents;
         private DateTime datetime;
@@ -18,7 +19,8 @@ namespace FeedClient.Feed.Model
         private bool favorite;
         private bool unread;
 
-        public long Id { get => id; set => id = value; }
+        public long? Id { get => id; set => id = value; }
+        public string Guid { get => guid; set => guid = value; }
         public string Title { get => title; set => title = value; }
         public string Contents { get => contents; set => contents = value; }
         public DateTime Datetime { get => datetime; set => datetime = value; }

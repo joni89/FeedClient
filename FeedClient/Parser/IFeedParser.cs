@@ -1,4 +1,4 @@
-﻿using FeedClient.Feed.Model;
+﻿using FeedClient.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace FeedClient.Feed.Parser
+namespace FeedClient.Parser
 {
     interface IFeedParser
     {
 
         bool IsCompatible(XmlDocument document);
 
-        string GetTitle(XmlDocument document);
+        string GetName(XmlDocument document);
 
-        List<NewsItem> GetNews(XmlDocument document);
+        List<NewsItem> GetNews(Feed feed, XmlDocument document);
 
     }
 }

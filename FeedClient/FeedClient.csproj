@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +37,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.110.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,17 +51,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAO.cs" />
-    <Compile Include="Feed\FeedFetcher.cs" />
-    <Compile Include="Feed\FeedParser.cs" />
-    <Compile Include="Feed\Model\Filter.cs" />
-    <Compile Include="Feed\Model\User.cs" />
-    <Compile Include="Feed\Model\Feed.cs" />
-    <Compile Include="Feed\Model\NewsItem.cs" />
-    <Compile Include="Feed\Parser\AtomFeedParser.cs" />
-    <Compile Include="Feed\Parser\FeedParserFacade.cs" />
-    <Compile Include="Feed\Parser\IFeedParser.cs" />
-    <Compile Include="Feed\Parser\RssFeedReader.cs" />
+    <Compile Include="DB\DataBase.cs" />
+    <Compile Include="DB\FeedDAO.cs" />
+    <Compile Include="DB\UserDAO.cs" />
+    <Compile Include="XmlFetcher.cs" />
+    <Compile Include="FeedReader.cs" />
+    <Compile Include="Model\Filter.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Model\Feed.cs" />
+    <Compile Include="Model\NewsItem.cs" />
+    <Compile Include="Parser\AtomFeedParser.cs" />
+    <Compile Include="Parser\FeedParserFacade.cs" />
+    <Compile Include="Parser\IFeedParser.cs" />
+    <Compile Include="Parser\RssFeedParser.cs" />
     <Compile Include="FrmCustomFilters.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +102,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlParseUtils.cs" />
     <EmbeddedResource Include="FrmCustomFilters.resx">
       <DependentUpon>FrmCustomFilters.cs</DependentUpon>
     </EmbeddedResource>
@@ -122,6 +130,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -136,4 +145,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets'))" />
+  </Target>
 </Project>

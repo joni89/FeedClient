@@ -1,5 +1,5 @@
-﻿using FeedClient.Feed.Model;
-using FeedClient.Feed.Parser;
+﻿using FeedClient.Model;
+using FeedClient.Parser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace FeedClient.Feed.Parser
+namespace FeedClient.Parser
 {
     class FeedParserFacade
     {
@@ -16,14 +16,14 @@ namespace FeedClient.Feed.Parser
             new AtomFeedParser()
         };
 
-        public List<NewsItem> GetNews(XmlDocument document)
+        public List<NewsItem> GetNews(Feed feed, XmlDocument document)
         {
-            return GetCompatibleReader(document).GetNews(document);
+            return GetCompatibleReader(document).GetNews(feed, document);
         }
 
-        public string GetTitle(XmlDocument document)
+        public string GetName(XmlDocument document)
         {
-            return GetCompatibleReader(document).GetTitle(document);
+            return GetCompatibleReader(document).GetName(document);
         }
 
         private IFeedParser GetCompatibleReader(XmlDocument document)

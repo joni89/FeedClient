@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id INTEGER PRIMARY KEY NOT NULL,
-	username TEXT NOT NULL,
+	username TEXT NOT NULL UNIQUE,
 	password TEXT NOT NULL,
 	name TEXT NOT NULL
 );
@@ -18,6 +18,7 @@ CREATE TABLE feeds (
 DROP TABLE IF EXISTS news;
 CREATE TABLE news (
 	id INTEGER PRIMARY KEY NOT NULL,
+	guid TEXT NOT NULL,
 	title TEXT NOT NULL,
 	contents TEXT NOT NULL,
 	datetime INTEGER NOT NULL,
@@ -25,6 +26,7 @@ CREATE TABLE news (
 	feed_id INTEGER NOT NULL,
 	favorite INTEGER NOT NULL DEFAULT 0,
 	unread INTEGER NOT NULL DEFAULT 1,
+	UNIQUE(feed_id, guid),
 	FOREIGN KEY (feed_id) REFERENCES feeds (id)
 );
 
