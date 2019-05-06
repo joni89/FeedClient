@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FeedClient.Model
 {
-    class NewsItem
+    public class NewsItem
     {
 
         private long? id;

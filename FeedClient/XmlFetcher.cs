@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace FeedClient
 {
-    class XmlFetcher
+    public class XmlFetcher
     {
 
         public XmlDocument Fetch(string url)

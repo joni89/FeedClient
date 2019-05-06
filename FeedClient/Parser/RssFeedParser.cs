@@ -9,7 +9,7 @@ using FeedClient.Model;
 
 namespace FeedClient.Parser
 {
-    class RssFeedParser : IFeedParser
+    public class RssFeedParser : IFeedParser
     {
         public bool IsCompatible(XmlDocument document)
         {

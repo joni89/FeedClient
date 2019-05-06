@@ -51,9 +51,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller.cs" />
     <Compile Include="DB\DataBase.cs" />
+    <Compile Include="DB\FilterDAO.cs" />
+    <Compile Include="DB\NewsDAO.cs" />
     <Compile Include="DB\FeedDAO.cs" />
+    <Compile Include="DB\RowReader.cs" />
     <Compile Include="DB\UserDAO.cs" />
+    <Compile Include="HashUtils.cs" />
     <Compile Include="XmlFetcher.cs" />
     <Compile Include="FeedReader.cs" />
     <Compile Include="Model\Filter.cs" />

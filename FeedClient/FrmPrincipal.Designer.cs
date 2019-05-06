@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("ABC");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Fuentes", new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("ABC");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Fuentes", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
             this.wBNews = new System.Windows.Forms.WebBrowser();
             this.txtNews = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -57,14 +57,14 @@
             // 
             this.treeView1.Location = new System.Drawing.Point(27, 26);
             this.treeView1.Name = "treeView1";
-            treeNode5.Name = "Nodo1";
-            treeNode5.Text = "ABC";
-            treeNode6.BackColor = System.Drawing.Color.Transparent;
-            treeNode6.ForeColor = System.Drawing.Color.Black;
-            treeNode6.Name = "Nodo0";
-            treeNode6.Text = "Fuentes";
+            treeNode1.Name = "Nodo1";
+            treeNode1.Text = "ABC";
+            treeNode2.BackColor = System.Drawing.Color.Transparent;
+            treeNode2.ForeColor = System.Drawing.Color.Black;
+            treeNode2.Name = "Nodo0";
+            treeNode2.Text = "Fuentes";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6});
+            treeNode2});
             this.treeView1.Size = new System.Drawing.Size(121, 97);
             this.treeView1.TabIndex = 2;
             // 
@@ -78,6 +78,7 @@
             this.Controls.Add(this.wBNews);
             this.Name = "FrmPrincipal";
             this.Text = "Principal";
+            this.Load += new System.EventHandler(this.FrmPrincipal_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

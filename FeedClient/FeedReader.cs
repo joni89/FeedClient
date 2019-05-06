@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace FeedClient
 {
-    class FeedReader
+    public class FeedReader
     {
         private XmlFetcher fetcher = new XmlFetcher();
         private FeedParserFacade parser = new FeedParserFacade();

@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace FeedClient.Parser
 {
-    interface IFeedParser
+    public interface IFeedParser
     {
 
         bool IsCompatible(XmlDocument document);

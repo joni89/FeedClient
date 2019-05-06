@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace FeedClient.Parser
 {
-    class FeedParserFacade
+    public class FeedParserFacade
     {
         private IFeedParser[] parsers = {
             new RssFeedParser(),

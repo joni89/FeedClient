@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FeedClient.DB
 {
-    class FeedDAO
+    public class FeedDAO
     {
 
         public void Add(Feed feed)
@@ -29,7 +29,7 @@ namespace FeedClient.DB
             }
         }
 
-        public Feed FindAllByUser(User user)
+        public List<Feed> FindAllByUser(User user)
         {
             var connection = DataBase.GetConnection();
 
@@ -41,20 +41,16 @@ namespace FeedClient.DB
 
                 using (var reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    var results = new List<Feed>();
+
+                    while (reader.Read())
                     {
-                        return new Feed()
-                        {
-                            Id = Convert.ToInt64(reader["id"]),
-                            Name = reader["name"].ToString(),
-                            Url = reader["url"].ToString(),
-                            User = user
-                        };
+                        results.Add(RowReader.ReadFeed(reader, user, ""));
                     }
+
+                    return results;
                 }
             }
-
-            return null;
         }
 
         public void Update(Feed feed)

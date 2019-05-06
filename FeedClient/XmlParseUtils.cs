@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace FeedClient
 {
-    class XmlParseUtils
+    public class XmlParseUtils
     {
 
         public static XmlNode GetRootNode(XmlDocument document)

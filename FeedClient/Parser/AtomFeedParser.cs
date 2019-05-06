@@ -6,7 +6,7 @@ using FeedClient.Model;
 
 namespace FeedClient.Parser
 {
-    class AtomFeedParser : IFeedParser
+    public class AtomFeedParser : IFeedParser
     {
         public bool IsCompatible(XmlDocument document)
         {

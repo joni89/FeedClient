@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace FeedClient.DB
 {
-    class UserDAO
+    public class UserDAO
     {
 
-        public void Add(User user)
+        public void Add(User user, string password)
         {
             var connection = DataBase.GetConnection();
 
@@ -20,7 +20,7 @@ namespace FeedClient.DB
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.Add(new SQLiteParameter("username", user.Username));
-                command.Parameters.Add(new SQLiteParameter("password", user.Password));
+                command.Parameters.Add(new SQLiteParameter("password", HashUtils.ComputeHash(password)));
                 command.Parameters.Add(new SQLiteParameter("name", user.Name));
 
                 command.ExecuteNonQuery();
@@ -33,14 +33,30 @@ namespace FeedClient.DB
         {
             var connection = DataBase.GetConnection();
 
-            string sql = "UPDATE users SET username = :username, password = :password, name = :name WHERE id = :id";
+            string sql = "UPDATE users SET username = :username, name = :name WHERE id = :id";
 
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.Add(new SQLiteParameter("id", user.Id));
                 command.Parameters.Add(new SQLiteParameter("username", user.Username));
-                command.Parameters.Add(new SQLiteParameter("password", user.Password));
                 command.Parameters.Add(new SQLiteParameter("name", user.Name));
+
+                command.ExecuteNonQuery();
+
+                user.Id = connection.LastInsertRowId;
+            }
+        }
+
+        public void UpdatePassword(User user, string password)
+        {
+            var connection = DataBase.GetConnection();
+
+            string sql = "UPDATE users SET password = :password WHERE id = :id";
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.Add(new SQLiteParameter("id", user.Id));
+                command.Parameters.Add(new SQLiteParameter("password", HashUtils.ComputeHash(password)));
 
                 command.ExecuteNonQuery();
 
@@ -76,7 +92,7 @@ namespace FeedClient.DB
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.Add(new SQLiteParameter("username", username));
-                command.Parameters.Add(new SQLiteParameter("password", password));
+                command.Parameters.Add(new SQLiteParameter("password", HashUtils.ComputeHash(password)));
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -86,7 +102,6 @@ namespace FeedClient.DB
                         {
                             Id = Convert.ToInt64(reader["id"]),
                             Username = username,
-                            Password = password,
                             Name = reader["name"].ToString()
                         };
                     }
