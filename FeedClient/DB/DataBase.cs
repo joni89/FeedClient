@@ -12,7 +12,7 @@ namespace FeedClient.DB
     {
         public static SQLiteConnection GetConnection()
         {
-            var connection = new SQLiteConnection("Data Source=database\\database.sqlite;Version=3;Foreign Keys=true");
+            var connection = new SQLiteConnection("Data Source=..\\..\\..\\database\\database.sqlite;Version=3;Foreign Keys=true");
             connection.Open();
             return connection;
         }
