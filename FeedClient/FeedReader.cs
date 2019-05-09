@@ -14,14 +14,8 @@ namespace FeedClient
         private XmlFetcher fetcher = new XmlFetcher();
         private FeedParserFacade parser = new FeedParserFacade();
 
-        public List<NewsItem> GetNews(Feed feed)
-        {
-            return parser.GetNews(feed, fetcher.Fetch(feed.Url));
-        }
+        public List<NewsItem> GetNews(Feed feed) => parser.GetNews(feed, fetcher.Fetch(feed.Url));
 
-        public string GetName(string feedUrl)
-        {
-            return parser.GetName(fetcher.Fetch(feedUrl));
-        }
+        public string GetName(string feedUrl) => parser.GetName(fetcher.Fetch(feedUrl));
     }
 }

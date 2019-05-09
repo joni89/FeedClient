@@ -11,9 +11,9 @@ namespace FeedClient
     {
         public static string ComputeHash(string input)
         {
-            SHA1 sha1 = SHA1CryptoServiceProvider.Create();
+            SHA1 sha1 = SHA1.Create();
 
-            byte[] inputBytes = ASCIIEncoding.Default.GetBytes(input);
+            byte[] inputBytes = Encoding.Default.GetBytes(input);
             byte[] outputBytes = sha1.ComputeHash(inputBytes);
 
             StringBuilder hashBuilder = new StringBuilder();

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmNewRss));
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAcept = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -38,37 +39,37 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(222, 158);
+            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancel.Location = new System.Drawing.Point(214, 153);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(104, 38);
+            this.btnCancel.Size = new System.Drawing.Size(80, 26);
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnAcept
             // 
-            this.btnAcept.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAcept.Location = new System.Drawing.Point(78, 158);
+            this.btnAcept.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAcept.Location = new System.Drawing.Point(114, 153);
             this.btnAcept.Name = "btnAcept";
-            this.btnAcept.Size = new System.Drawing.Size(104, 38);
+            this.btnAcept.Size = new System.Drawing.Size(80, 26);
             this.btnAcept.TabIndex = 11;
             this.btnAcept.Text = "Aceptar";
             this.btnAcept.UseVisualStyleBackColor = true;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(160, 97);
+            this.textBox1.Location = new System.Drawing.Point(114, 95);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(166, 24);
+            this.textBox1.Size = new System.Drawing.Size(180, 25);
             this.textBox1.TabIndex = 10;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(58, 96);
+            this.label3.Location = new System.Drawing.Point(25, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 18);
             this.label3.TabIndex = 8;
@@ -78,7 +79,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(58, 34);
+            this.label1.Location = new System.Drawing.Point(25, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 18);
             this.label1.TabIndex = 7;
@@ -86,25 +87,26 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(160, 35);
+            this.textBox2.Location = new System.Drawing.Point(114, 33);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(166, 24);
+            this.textBox2.Size = new System.Drawing.Size(180, 25);
             this.textBox2.TabIndex = 13;
             // 
             // FrmNewRss
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 231);
+            this.ClientSize = new System.Drawing.Size(324, 191);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAcept);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmNewRss";
-            this.Text = "FrmNewRss";
+            this.Text = "Nueva fuente";
             this.ResumeLayout(false);
             this.PerformLayout();
 

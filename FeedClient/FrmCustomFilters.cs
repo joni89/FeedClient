@@ -12,9 +12,16 @@ namespace FeedClient
 {
     public partial class FrmCustomFilters : Form
     {
+        FrmNewFilter frmNewFilter = new FrmNewFilter();
+
         public FrmCustomFilters()
         {
             InitializeComponent();
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            frmNewFilter.ShowDialog();
         }
     }
 }

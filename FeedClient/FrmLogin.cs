@@ -16,5 +16,10 @@ namespace FeedClient
         {
             InitializeComponent();
         }
+
+        private void BtnRegister_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -12,9 +12,15 @@ namespace FeedClient
 {
     public partial class FrmCustomRss : Form
     {
+        FrmNewRss frmNewRss = new FrmNewRss();
         public FrmCustomRss()
         {
             InitializeComponent();
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            frmNewRss.ShowDialog();
         }
     }
 }
