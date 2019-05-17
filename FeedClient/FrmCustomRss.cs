@@ -8,19 +8,37 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using FeedClient.Model;
+
 namespace FeedClient
 {
     public partial class FrmCustomRss : Form
     {
-        FrmNewRss frmNewRss = new FrmNewRss();
-        public FrmCustomRss()
+        private Controller controller;
+        private List<Feed> feeds;
+
+        public FrmCustomRss(Controller controller)
         {
+            this.controller = controller;
             InitializeComponent();
+
+            feeds = controller.FindUserFeeds();
+            managementList.Items = feeds.Select(f => f.Name).ToList<object>();
+
         }
 
-        private void BtnAdd_Click(object sender, EventArgs e)
+        private void ManagementList_ButtonClickEvent(object sender, ManagementList.ButtonClickEventArgs e)
         {
-            frmNewRss.ShowDialog();
+            switch(e.Button)
+            {
+                case ManagementList.ActionButton.ADD:
+                    new FrmNewRss(controller).ShowDialog();
+                    break;
+                case ManagementList.ActionButton.EDIT:
+                    break;
+                case ManagementList.ActionButton.DELETE:
+                    break;
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ namespace FeedClient
 
         private void BtnRegister_Click(object sender, EventArgs e)
         {
+            new FrmRegister().ShowDialog();
 
         }
     }

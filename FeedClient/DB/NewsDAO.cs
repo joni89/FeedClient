@@ -46,7 +46,7 @@ namespace FeedClient.DB
                 FROM
                     news
                     INNER JOIN feeds
-                        ON news.feed_id = feeds.i
+                        ON news.feed_id = feeds.id
                 WHERE
                     feeds.user_id = :user_id
                 ORDER BY

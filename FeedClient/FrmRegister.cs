@@ -10,19 +10,11 @@ using System.Windows.Forms;
 
 namespace FeedClient
 {
-    public partial class FrmNewFilter : Form
+    public partial class FrmRegister : Form
     {
-
-        private Controller controller;
-        public FrmNewFilter(Controller controller)
+        public FrmRegister()
         {
-            this.controller = controller;
             InitializeComponent();
-        }
-
-        private void BtnCancel_Click(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }

@@ -12,9 +12,17 @@ namespace FeedClient
 {
     public partial class FrmNewRss : Form
     {
-        public FrmNewRss()
+
+        private Controller controller;
+        public FrmNewRss(Controller controller)
         {
+            this.controller = controller;
             InitializeComponent();
+        }
+
+        private void BtnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

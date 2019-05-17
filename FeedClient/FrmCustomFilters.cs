@@ -12,16 +12,26 @@ namespace FeedClient
 {
     public partial class FrmCustomFilters : Form
     {
-        FrmNewFilter frmNewFilter = new FrmNewFilter();
 
-        public FrmCustomFilters()
+        private Controller controller;
+        public FrmCustomFilters(Controller controller)
         {
+            this.controller = controller;
             InitializeComponent();
         }
 
-        private void BtnAdd_Click(object sender, EventArgs e)
+        private void ManagementList_ButtonClickEvent(object sender, ManagementList.ButtonClickEventArgs e)
         {
-            frmNewFilter.ShowDialog();
+            switch (e.Button)
+            {
+                case ManagementList.ActionButton.ADD:
+                    new FrmNewFilter(controller).ShowDialog();
+                    break;
+                case ManagementList.ActionButton.EDIT:
+                    break;
+                case ManagementList.ActionButton.DELETE:
+                    break;
+            }
         }
     }
 }

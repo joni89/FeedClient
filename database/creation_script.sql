@@ -21,7 +21,7 @@ CREATE TABLE news (
 	guid TEXT NOT NULL,
 	title TEXT NOT NULL,
 	contents TEXT NOT NULL,
-	datetime INTEGER NOT NULL,
+	datetime TEXT NOT NULL,
 	url TEXT NOT NULL,
 	feed_id INTEGER NOT NULL,
 	favorite INTEGER NOT NULL DEFAULT 0,
