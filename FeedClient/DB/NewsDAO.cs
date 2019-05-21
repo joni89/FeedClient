@@ -15,14 +15,14 @@ namespace FeedClient.DB
         {
             var connection = DataBase.GetConnection();
 
-            string sql = "INSERT INTO news(guid, title, contents, datetime, url, feed, favorite, unread) VALUES (:guid, :title, :contents, :datetime, :url, :feed, :favorite, :unread)";
+            string sql = "INSERT INTO news(guid, title, contents, datetime, url, feed_id, favorite, unread) VALUES (:guid, :title, :contents, :datetime, :url, :feed_id, :favorite, :unread)";
 
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.Add(new SQLiteParameter("guid", newsItem.Guid));
                 command.Parameters.Add(new SQLiteParameter("title", newsItem.Title));
                 command.Parameters.Add(new SQLiteParameter("contents", newsItem.Contents));
-                command.Parameters.Add(new SQLiteParameter("datetime", newsItem.Datetime));
+                command.Parameters.Add(new SQLiteParameter("datetime", newsItem.Datetime.HasValue ? newsItem.Datetime.Value : (object)null));
                 command.Parameters.Add(new SQLiteParameter("url", newsItem.Url));
                 command.Parameters.Add(new SQLiteParameter("feed_id", newsItem.Feed.Id));
                 command.Parameters.Add(new SQLiteParameter("favorite", newsItem.Favorite));
@@ -34,7 +34,62 @@ namespace FeedClient.DB
             }
         }
 
+        public Dictionary<long, HashSet<string>> FindExistingNewsItemGuidsGroupedByFeed(User user)
+        {
+            var connection = DataBase.GetConnection();
+
+            string sql = @"
+                SELECT
+                    news.guid,
+                    news.feed_id
+                FROM
+                    news
+                    INNER JOIN feeds
+                        ON news.feed_id = feeds.id
+                WHERE
+                    feeds.user_id = :user_id
+                ORDER BY
+                    news.feed_id
+            ";
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.Add(new SQLiteParameter("user_id", user.Id.Value));
+
+                using (var reader = command.ExecuteReader())
+                {
+                    Dictionary<long, HashSet<string>> results = new Dictionary<long, HashSet<string>>();
+
+                    while (reader.Read())
+                    {
+                        long feedId = Convert.ToInt64(reader["feed_id"]);
+
+                        HashSet<string> feedGuids;
+
+                        if (results.ContainsKey(feedId))
+                        {
+                            feedGuids = results[feedId];
+                        }
+                        else
+                        {
+                            feedGuids = results[feedId] = new HashSet<string>();
+                        }
+
+                        string guid = reader["guid"].ToString();
+                        feedGuids.Add(guid);
+                    }
+
+                    return results;
+                }
+            }
+        }
+
         public List<NewsItem> FindAllByUser(User user)
+        {
+            return FindAllByUserAndFeed(user, null);
+        }
+
+        internal List<NewsItem> FindAllByUserAndFeed(User user, Feed feed)
         {
             var connection = DataBase.GetConnection();
 
@@ -49,6 +104,15 @@ namespace FeedClient.DB
                         ON news.feed_id = feeds.id
                 WHERE
                     feeds.user_id = :user_id
+                    AND news.active = 1
+            ";
+
+            if(feed != null)
+            {
+                sql += " AND news.feed_id = :feed_id ";
+            }
+
+            sql += @"
                 ORDER BY
                     news.datetime DESC
             ";
@@ -56,6 +120,11 @@ namespace FeedClient.DB
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.Add(new SQLiteParameter("user_id", user.Id.Value));
+
+                if(feed != null)
+                {
+                    command.Parameters.Add(new SQLiteParameter("feed_id", feed.Id.Value));
+                }
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -83,20 +152,22 @@ namespace FeedClient.DB
                 FROM
                     news
                     INNER JOIN feeds
-                        ON news.feed_id = feeds.i
+                        ON news.feed_id = feeds.id
                 WHERE
                     feeds.user_id = :user_id
+                    AND news.active = 1
                     AND (
                         news.title LIKE :filterText
                         OR news.contents LIKE :filterText
                     )
-                    AND news.feed_id IN (
             ";
 
-            sql += string.Join(",", filter.Feeds.Select((feed, index) => ":feed_id_" + index));
+            if (filter.Feeds.Count > 0)
+            {
+                sql += " AND news.feed_id IN (" + string.Join(",", filter.Feeds.Select((feed, index) => ":feed_id_" + index)) + ") ";
+            }
 
             sql += @"
-                    )
                 ORDER BY
                     news.datetime DESC
             ";
@@ -166,7 +237,7 @@ namespace FeedClient.DB
         {
             var connection = DataBase.GetConnection();
 
-            string sql = "DELETE FROM news WHERE id = :id";
+            string sql = "UPDATE news SET active = 0 WHERE id = :id";
 
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {

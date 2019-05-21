@@ -111,5 +111,27 @@ namespace FeedClient.DB
             return null;
         }
 
+        public bool CheckUsernameExists(string username)
+        {
+            var connection = DataBase.GetConnection();
+
+            string sql = "SELECT id FROM users WHERE username = :username";
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.Add(new SQLiteParameter("username", username));
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
     }
 }

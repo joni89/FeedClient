@@ -30,8 +30,10 @@ namespace FeedClient.Parser
                 var id = XmlParseUtils.FindFirstChildByTagName(entry, "id").InnerText;
                 var title = XmlParseUtils.FindFirstChildByTagName(entry, "title").InnerText;
                 var contents = XmlParseUtils.FindFirstChildByTagName(entry, "summary").InnerText;
-                var datetime = DateTime.ParseExact(XmlParseUtils.FindFirstChildByTagName(entry, "updated").InnerText, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.GetCultureInfo("en-EN"));
                 var url = XmlParseUtils.FindFirstChildByTagName(entry, "link").Attributes.GetNamedItem("href").Value;
+
+                var datetimeElement = XmlParseUtils.FindFirstChildByTagName(entry, "updated");
+                var datetime = datetimeElement != null ? DateTime.ParseExact(datetimeElement.InnerText, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.GetCultureInfo("en-EN")) : (DateTime?)null;
 
                 var newsItem = new NewsItem
                 {

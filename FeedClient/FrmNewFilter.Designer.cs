@@ -31,79 +31,105 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmNewFilter));
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.cBFont = new System.Windows.Forms.ComboBox();
-            this.txtNewFilter = new System.Windows.Forms.TextBox();
+            this.txtText = new System.Windows.Forms.TextBox();
             this.btnAcept = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.clbFeeds = new System.Windows.Forms.CheckedListBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(28, 29);
+            this.label1.Location = new System.Drawing.Point(28, 63);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Fuente";
+            this.label1.Size = new System.Drawing.Size(61, 18);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Fuentes";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(28, 91);
+            this.label3.Location = new System.Drawing.Point(28, 242);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 18);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Filtro";
+            this.label3.Size = new System.Drawing.Size(45, 18);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Texto";
             // 
-            // cBFont
+            // txtText
             // 
-            this.cBFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cBFont.FormattingEnabled = true;
-            this.cBFont.Location = new System.Drawing.Point(112, 29);
-            this.cBFont.Name = "cBFont";
-            this.cBFont.Size = new System.Drawing.Size(180, 24);
-            this.cBFont.TabIndex = 3;
-            // 
-            // txtNewFilter
-            // 
-            this.txtNewFilter.Location = new System.Drawing.Point(112, 92);
-            this.txtNewFilter.Multiline = true;
-            this.txtNewFilter.Name = "txtNewFilter";
-            this.txtNewFilter.Size = new System.Drawing.Size(180, 25);
-            this.txtNewFilter.TabIndex = 4;
+            this.txtText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtText.Location = new System.Drawing.Point(112, 238);
+            this.txtText.Name = "txtText";
+            this.txtText.Size = new System.Drawing.Size(259, 22);
+            this.txtText.TabIndex = 2;
             // 
             // btnAcept
             // 
             this.btnAcept.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAcept.Location = new System.Drawing.Point(112, 153);
+            this.btnAcept.Location = new System.Drawing.Point(193, 298);
             this.btnAcept.Name = "btnAcept";
             this.btnAcept.Size = new System.Drawing.Size(80, 26);
-            this.btnAcept.TabIndex = 5;
+            this.btnAcept.TabIndex = 3;
             this.btnAcept.Text = "Aceptar";
             this.btnAcept.UseVisualStyleBackColor = true;
+            this.btnAcept.Click += new System.EventHandler(this.BtnAcept_Click);
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(210, 153);
+            this.btnCancel.Location = new System.Drawing.Point(291, 298);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 26);
-            this.btnCancel.TabIndex = 6;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
+            // clbFeeds
+            // 
+            this.clbFeeds.CheckOnClick = true;
+            this.clbFeeds.FormattingEnabled = true;
+            this.clbFeeds.Location = new System.Drawing.Point(112, 63);
+            this.clbFeeds.Name = "clbFeeds";
+            this.clbFeeds.Size = new System.Drawing.Size(259, 154);
+            this.clbFeeds.TabIndex = 1;
+            // 
+            // txtName
+            // 
+            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtName.Location = new System.Drawing.Point(112, 20);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(259, 22);
+            this.txtName.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(28, 24);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 18);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Nombre";
+            // 
             // FrmNewFilter
             // 
+            this.AcceptButton = this.btnAcept;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(324, 191);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(389, 338);
+            this.Controls.Add(this.txtName);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.clbFeeds);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAcept);
-            this.Controls.Add(this.txtNewFilter);
-            this.Controls.Add(this.cBFont);
+            this.Controls.Add(this.txtText);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -120,9 +146,11 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cBFont;
-        private System.Windows.Forms.TextBox txtNewFilter;
+        private System.Windows.Forms.TextBox txtText;
         private System.Windows.Forms.Button btnAcept;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.CheckedListBox clbFeeds;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.Label label2;
     }
 }

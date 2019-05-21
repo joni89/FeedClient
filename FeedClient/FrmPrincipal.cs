@@ -16,8 +16,11 @@ namespace FeedClient
 
         private Controller controller;
 
-        private List<Feed> feeds;
-        private List<NewsItem> news;
+        private List<Feed> feeds = new List<Feed>();
+        private List<NewsItem> news = new List<NewsItem>();
+
+        private Feed selectedFeed = null;
+        private Filter appliedFilter = null;
 
         private Font unreadFont;
 
@@ -31,7 +34,7 @@ namespace FeedClient
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
         {
-            FrmLogin frmLogin = new FrmLogin();
+            FrmLogin frmLogin = new FrmLogin(controller);
             bool cancel = false;
             bool loginSuccessful = false;
             do
@@ -54,8 +57,11 @@ namespace FeedClient
                 return;
             }
 
-            ReloadFeeds(true);
+            ReloadFeeds();
+            UpdateFeedsTreeViewNodes();
+
             ReloadNews(true);
+            UpdateNewsListItems();
         }
 
         private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -77,22 +83,53 @@ namespace FeedClient
 
         private void AddRssToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new FrmNewRss(controller).ShowDialog();
+            wvNews.DocumentText = "";
+
+            FrmNewRss frmNewRss = new FrmNewRss(controller);
+            var  answer = frmNewRss.ShowDialog();
+
+            switch (answer)
+            {
+                case DialogResult.OK:
+
+                    feeds.Add(frmNewRss.feed);
+                    UpdateFeedsTreeViewNodes();
+
+                    ReloadNews(true);
+                    UpdateNewsListItems();
+
+                    break;
+
+                case DialogResult.Cancel:
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void ControlFeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new FrmCustomRss(controller).ShowDialog();
-        }
+            wvNews.DocumentText = "";
 
-        private void SaveFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new FrmNewFilter(controller).ShowDialog();
+            new FrmCustomRss(controller).ShowDialog();
+
+            ReloadFeeds();
+            UpdateFeedsTreeViewNodes();
+
+            ReloadNews(true);
+            UpdateNewsListItems();
         }
 
         private void ControlFiltersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new FrmCustomFilters(controller).ShowDialog();
+            wvNews.DocumentText = "";
+
+            FrmCustomFilters frmCustomFilters = new FrmCustomFilters(controller, appliedFilter);
+            frmCustomFilters.ShowDialog();
+
+            SetAppliedFilter(frmCustomFilters.appliedFilter);
+
+            ReloadNews(false);
         }
 
         private void AcercadeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -100,13 +137,20 @@ namespace FeedClient
             MessageBox.Show("Autor: Jonatan \nVersión: 1.0", "Acerca de ...");
         }
 
-        private void ReloadFeeds(bool reloadTreeView)
+        private void ReloadFeeds()
         {
             feeds = controller.FindUserFeeds();
 
-            if (reloadTreeView)
+            if (selectedFeed != null)
             {
-                UpdateFeedsTreeViewNodes();
+                Feed newSelectedFeed = feeds.Find(feed => feed.Id.Value == selectedFeed.Id.Value);
+
+                if (newSelectedFeed == null) {
+                    UnsetSelectedFeed(true);
+                } else
+                {
+                    SetSelectedFeed(newSelectedFeed);
+                }
             }
         }
 
@@ -119,13 +163,45 @@ namespace FeedClient
             treeFeeds.Refresh();
         }
 
-        private void ReloadNews(bool reloadList)
+        private void ReloadNews(bool refreshFeeds)
         {
-            news = controller.FindUserNews();
 
-            if(reloadList)
+            btnRefreshNews.Enabled = false;
+            listNews.Enabled = false;
+            treeFeeds.Enabled = false;
+            try
             {
+                if (refreshFeeds)
+                {
+                    controller.ReadNewsFromFeeds();
+                }
+
+                if (selectedFeed != null)
+                {
+                    Console.WriteLine("SE RECARGAN LAS NOTICIAS DEL FEED: " + selectedFeed.Name);
+                    news = controller.FindUserNewsByFeed(selectedFeed);
+                } else if(appliedFilter != null)
+                {
+                    Console.WriteLine("SE RECARGAN LAS NOTICIAS APLICANDO EL FILTRO: " + appliedFilter.Name);
+                    news = controller.FindUserNewsByFilter(appliedFilter);
+                } else
+                {
+                    Console.WriteLine("SE RECARGAN LAS NOTICIAS");
+                    news = controller.FindUserNews();
+                }
+
                 UpdateNewsListItems();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+                MessageBox.Show("Ha ocurrido un error consultando las noticias.", "Error inesperado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnRefreshNews.Enabled = true;
+                listNews.Enabled = true;
+                treeFeeds.Enabled = true;
             }
         }
 
@@ -146,6 +222,15 @@ namespace FeedClient
             NewsItem selected = GetSelectedNewsItem();
 
             wvNews.DocumentText = selected != null ? selected.Contents : "";
+
+            try
+            {
+                controller.MarkAsUnread(selected, false);
+                listNews.Refresh();
+            } catch(Exception)
+            {
+                MessageBox.Show("Ha ocurrido un error al marcar la noticia como leída.", "Error inesperado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void SetContextMenuItemsEnabled(bool enabled)
@@ -158,7 +243,12 @@ namespace FeedClient
 
         private void ListNews_DrawItem(object sender, DrawItemEventArgs e)
         {
-            NewsItem newsItem = news[e.Index];
+            if(e.Index < 0)
+            {
+                return;
+            }
+
+            NewsItem newsItem = (NewsItem) listNews.Items[e.Index];
 
             e.DrawBackground();
 
@@ -196,7 +286,17 @@ namespace FeedClient
             }
         }
 
-        private void MiMarkFavorite_Click(object sender, EventArgs e)
+        private void MiAddFavorite_Click(object sender, EventArgs e)
+        {
+            NewsItem selected = GetSelectedNewsItem();
+            if (selected != null)
+            {
+                controller.MarkAsFavorite(selected, true);
+                listNews.Refresh();
+            }
+        }
+
+        private void MiRemoveFavorite_Click(object sender, EventArgs e)
         {
             NewsItem selected = GetSelectedNewsItem();
             if (selected != null)
@@ -206,14 +306,39 @@ namespace FeedClient
             }
         }
 
-        private void MiMarkUnFavorite_Click(object sender, EventArgs e)
+        private void MiDeleteNewsItem_Click(object sender, EventArgs e)
         {
             NewsItem selected = GetSelectedNewsItem();
-            if (selected != null)
+
+            if (selected == null)
             {
-                controller.MarkAsFavorite(selected, true);
-                listNews.Refresh();
+                return;
             }
+
+            if (MessageBox.Show("¿Desea eliminar la noticia seleccionada?"
+                , "Salir"
+                , MessageBoxButtons.OKCancel
+                , MessageBoxIcon.Question)
+                != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                controller.DeleteNewsItem(selected);
+                news.Remove(selected);
+
+                wvNews.DocumentText = "";
+            } catch(Exception)
+            {
+                MessageBox.Show("Ha ocurrido un error eliminando la noticia.", "Error inesperado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show("Noticia eliminada correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            UpdateNewsListItems();
         }
 
         private void CmNewsItem_Opening(object sender, CancelEventArgs e)
@@ -236,6 +361,91 @@ namespace FeedClient
                 miMarkUnread.Visible = false;
                 miRemoveFavorite.Visible = false;
             }
+        }
+
+        private void BtnRefreshNews_Click(object sender, EventArgs e)
+        {
+            ReloadNews(true);
+            UpdateNewsListItems();
+        }
+
+        private void TreeFeeds_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode rootNode = treeFeeds.Nodes[0];
+            TreeNode selectedNode = e.Node;
+
+            if (selectedNode == rootNode)
+            {
+                SetSelectedFeed(null);
+            } else
+            {
+                int nodeIndex = rootNode.Nodes.IndexOf(selectedNode);
+                SetSelectedFeed(feeds[nodeIndex]);
+            }
+
+            ReloadNews(false);
+            UpdateNewsListItems();
+        }
+
+        private void SetSelectedFeed(Feed feed)
+        {
+            wvNews.DocumentText = "";
+
+            if (feed == null)
+            {
+                UnsetSelectedFeed(false);
+                UnsetAppliedFilter();
+                return;
+            }
+
+            selectedFeed = feed;
+
+            lblFeedName.Text = feed.Name;
+
+            lblFeedLabel.Visible = true;
+            lblFeedName.Visible = true;
+
+            UnsetAppliedFilter();
+
+        }
+
+        private void UnsetSelectedFeed(bool deselectTreeNode)
+        {
+            selectedFeed = null;
+
+            if (deselectTreeNode)
+            {
+                treeFeeds.SelectedNode = null;
+            }
+
+            lblFeedLabel.Visible = false;
+            lblFeedName.Visible = false;
+        }
+
+        private void SetAppliedFilter(Filter filter)
+        {
+            if(filter == null)
+            {
+                UnsetAppliedFilter();
+                return;
+
+            }
+
+            appliedFilter = filter;
+
+            lblFilterName.Text = filter.Name;
+
+            lblFilterLabel.Visible = true;
+            lblFilterName.Visible = true;
+
+            UnsetSelectedFeed(true);
+        }
+
+        private void UnsetAppliedFilter()
+        {
+            appliedFilter = null;
+            lblFilterLabel.Visible = false;
+            lblFilterName.Visible = false;
         }
     }
 }

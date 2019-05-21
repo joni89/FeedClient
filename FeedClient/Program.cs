@@ -28,7 +28,7 @@ namespace FeedClient
 
             //TestFeeds();
 
-            TestDAOs();
+            //TestDAOs();
         }
 
         private static void TestFeeds()

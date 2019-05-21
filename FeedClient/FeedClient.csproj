@@ -64,6 +64,7 @@
     <Compile Include="FrmRegister.Designer.cs">
       <DependentUpon>FrmRegister.cs</DependentUpon>
     </Compile>
+    <Compile Include="ValidationUtils.cs" />
     <Compile Include="HashUtils.cs" />
     <Compile Include="XmlFetcher.cs" />
     <Compile Include="FeedReader.cs" />

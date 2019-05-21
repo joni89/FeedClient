@@ -38,7 +38,7 @@
             this.managementList.Location = new System.Drawing.Point(0, 0);
             this.managementList.Name = "managementList";
             this.managementList.Size = new System.Drawing.Size(406, 314);
-            this.managementList.TabIndex = 10;
+            this.managementList.TabIndex = 0;
             this.managementList.ButtonClickEvent += new System.EventHandler<ManagementList.ButtonClickEventArgs>(this.ManagementList_ButtonClickEvent);
             // 
             // FrmCustomRss

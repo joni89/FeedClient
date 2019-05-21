@@ -35,14 +35,11 @@
             this.treeFeeds = new System.Windows.Forms.TreeView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.feedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addRssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.controlFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +50,12 @@
             this.miMarkUnread = new System.Windows.Forms.ToolStripMenuItem();
             this.miAddFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.miRemoveFavorite = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDeleteNewsItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnRefreshNews = new System.Windows.Forms.Button();
+            this.lblFilterLabel = new System.Windows.Forms.Label();
+            this.lblFilterName = new System.Windows.Forms.Label();
+            this.lblFeedLabel = new System.Windows.Forms.Label();
+            this.lblFeedName = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.cmNewsItem.SuspendLayout();
             this.SuspendLayout();
@@ -62,21 +65,24 @@
             this.wvNews.Location = new System.Drawing.Point(214, 346);
             this.wvNews.MinimumSize = new System.Drawing.Size(20, 20);
             this.wvNews.Name = "wvNews";
-            this.wvNews.Size = new System.Drawing.Size(967, 199);
+            this.wvNews.ScriptErrorsSuppressed = true;
+            this.wvNews.Size = new System.Drawing.Size(958, 403);
             this.wvNews.TabIndex = 0;
             // 
             // treeFeeds
             // 
-            this.treeFeeds.Location = new System.Drawing.Point(24, 44);
+            this.treeFeeds.Location = new System.Drawing.Point(12, 36);
             this.treeFeeds.Name = "treeFeeds";
             treeNode1.BackColor = System.Drawing.Color.Transparent;
             treeNode1.ForeColor = System.Drawing.Color.Black;
             treeNode1.Name = "nodeAllFeeds";
+            treeNode1.Tag = "";
             treeNode1.Text = "Todas las fuentes";
             this.treeFeeds.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeFeeds.Size = new System.Drawing.Size(121, 97);
+            this.treeFeeds.Size = new System.Drawing.Size(183, 713);
             this.treeFeeds.TabIndex = 2;
+            this.treeFeeds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeFeeds_AfterSelect);
             // 
             // menuStrip1
             // 
@@ -87,37 +93,22 @@
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1193, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1184, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // archivoToolStripMenuItem
             // 
             this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.closeSesionToolStripMenuItem,
-            this.toolStripSeparator2,
             this.closeToolStripMenuItem});
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.archivoToolStripMenuItem.Text = "&Archivo";
             // 
-            // closeSesionToolStripMenuItem
-            // 
-            this.closeSesionToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("closeSesionToolStripMenuItem.Image")));
-            this.closeSesionToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.closeSesionToolStripMenuItem.Name = "closeSesionToolStripMenuItem";
-            this.closeSesionToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.closeSesionToolStripMenuItem.Text = "&Cerrar sesión";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(139, 6);
-            // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem.Text = "&Salir";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.CloseToolStripMenuItem_Click);
             // 
@@ -149,23 +140,15 @@
             // filtersToolStripMenuItem
             // 
             this.filtersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveFilterToolStripMenuItem,
             this.controlFiltersToolStripMenuItem});
             this.filtersToolStripMenuItem.Name = "filtersToolStripMenuItem";
             this.filtersToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.filtersToolStripMenuItem.Text = "Fil&tros";
             // 
-            // saveFilterToolStripMenuItem
-            // 
-            this.saveFilterToolStripMenuItem.Name = "saveFilterToolStripMenuItem";
-            this.saveFilterToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.saveFilterToolStripMenuItem.Text = "&Guardar filtro actual";
-            this.saveFilterToolStripMenuItem.Click += new System.EventHandler(this.SaveFilterToolStripMenuItem_Click);
-            // 
             // controlFiltersToolStripMenuItem
             // 
             this.controlFiltersToolStripMenuItem.Name = "controlFiltersToolStripMenuItem";
-            this.controlFiltersToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.controlFiltersToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.controlFiltersToolStripMenuItem.Text = "&Gestionar filtros";
             this.controlFiltersToolStripMenuItem.Click += new System.EventHandler(this.ControlFiltersToolStripMenuItem_Click);
             // 
@@ -191,9 +174,9 @@
             this.listNews.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listNews.FormattingEnabled = true;
             this.listNews.ItemHeight = 20;
-            this.listNews.Location = new System.Drawing.Point(214, 44);
+            this.listNews.Location = new System.Drawing.Point(214, 70);
             this.listNews.Name = "listNews";
-            this.listNews.Size = new System.Drawing.Size(967, 284);
+            this.listNews.Size = new System.Drawing.Size(958, 264);
             this.listNews.TabIndex = 4;
             this.listNews.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListNews_DrawItem);
             this.listNews.SelectedIndexChanged += new System.EventHandler(this.ListNews_SelectedIndexChanged);
@@ -205,9 +188,10 @@
             this.miMarkRead,
             this.miMarkUnread,
             this.miAddFavorite,
-            this.miRemoveFavorite});
+            this.miRemoveFavorite,
+            this.miDeleteNewsItem});
             this.cmNewsItem.Name = "contextMenuStrip1";
-            this.cmNewsItem.Size = new System.Drawing.Size(191, 114);
+            this.cmNewsItem.Size = new System.Drawing.Size(191, 136);
             this.cmNewsItem.Text = "Pepe";
             this.cmNewsItem.Opening += new System.ComponentModel.CancelEventHandler(this.CmNewsItem_Opening);
             // 
@@ -242,6 +226,7 @@
             this.miAddFavorite.Name = "miAddFavorite";
             this.miAddFavorite.Size = new System.Drawing.Size(190, 22);
             this.miAddFavorite.Text = "Añadir a favoritas";
+            this.miAddFavorite.Click += new System.EventHandler(this.MiAddFavorite_Click);
             // 
             // miRemoveFavorite
             // 
@@ -250,18 +235,85 @@
             this.miRemoveFavorite.Size = new System.Drawing.Size(190, 22);
             this.miRemoveFavorite.Text = "Eliminar de favoritos";
             this.miRemoveFavorite.Visible = false;
+            this.miRemoveFavorite.Click += new System.EventHandler(this.MiRemoveFavorite_Click);
+            // 
+            // miDeleteNewsItem
+            // 
+            this.miDeleteNewsItem.Name = "miDeleteNewsItem";
+            this.miDeleteNewsItem.Size = new System.Drawing.Size(190, 22);
+            this.miDeleteNewsItem.Text = "Eliminar noticia";
+            this.miDeleteNewsItem.Click += new System.EventHandler(this.MiDeleteNewsItem_Click);
+            // 
+            // btnRefreshNews
+            // 
+            this.btnRefreshNews.Location = new System.Drawing.Point(1052, 36);
+            this.btnRefreshNews.Name = "btnRefreshNews";
+            this.btnRefreshNews.Size = new System.Drawing.Size(120, 23);
+            this.btnRefreshNews.TabIndex = 5;
+            this.btnRefreshNews.Text = "Refrescar noticias";
+            this.btnRefreshNews.UseVisualStyleBackColor = true;
+            this.btnRefreshNews.Click += new System.EventHandler(this.BtnRefreshNews_Click);
+            // 
+            // lblFilterLabel
+            // 
+            this.lblFilterLabel.AutoSize = true;
+            this.lblFilterLabel.Location = new System.Drawing.Point(214, 36);
+            this.lblFilterLabel.Name = "lblFilterLabel";
+            this.lblFilterLabel.Size = new System.Drawing.Size(75, 13);
+            this.lblFilterLabel.TabIndex = 6;
+            this.lblFilterLabel.Text = "Filtro aplicado:";
+            this.lblFilterLabel.Visible = false;
+            // 
+            // lblFilterName
+            // 
+            this.lblFilterName.AutoSize = true;
+            this.lblFilterName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFilterName.Location = new System.Drawing.Point(289, 36);
+            this.lblFilterName.Name = "lblFilterName";
+            this.lblFilterName.Size = new System.Drawing.Size(106, 13);
+            this.lblFilterName.TabIndex = 7;
+            this.lblFilterName.Text = "[nombre del filtro]";
+            this.lblFilterName.Visible = false;
+            // 
+            // lblFeedLabel
+            // 
+            this.lblFeedLabel.AutoSize = true;
+            this.lblFeedLabel.Location = new System.Drawing.Point(214, 36);
+            this.lblFeedLabel.Name = "lblFeedLabel";
+            this.lblFeedLabel.Size = new System.Drawing.Size(109, 13);
+            this.lblFeedLabel.TabIndex = 8;
+            this.lblFeedLabel.Text = "Fuente seleccionada:";
+            this.lblFeedLabel.Visible = false;
+            // 
+            // lblFeedName
+            // 
+            this.lblFeedName.AutoSize = true;
+            this.lblFeedName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFeedName.Location = new System.Drawing.Point(320, 36);
+            this.lblFeedName.Name = "lblFeedName";
+            this.lblFeedName.Size = new System.Drawing.Size(128, 13);
+            this.lblFeedName.TabIndex = 9;
+            this.lblFeedName.Text = "[nombre de la fuente]";
+            this.lblFeedName.Visible = false;
             // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1193, 577);
+            this.ClientSize = new System.Drawing.Size(1184, 761);
+            this.Controls.Add(this.lblFeedName);
+            this.Controls.Add(this.lblFeedLabel);
+            this.Controls.Add(this.lblFilterName);
+            this.Controls.Add(this.lblFilterLabel);
+            this.Controls.Add(this.btnRefreshNews);
             this.Controls.Add(this.listNews);
             this.Controls.Add(this.treeFeeds);
             this.Controls.Add(this.wvNews);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "FrmPrincipal";
             this.Text = "Principal";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmPrincipal_FormClosing);
@@ -280,13 +332,10 @@
         private System.Windows.Forms.TreeView treeFeeds;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeSesionToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem feedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem controlFeedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filtersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem controlFiltersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercadeToolStripMenuItem;
@@ -298,6 +347,12 @@
         private System.Windows.Forms.ToolStripMenuItem miMarkUnread;
         private System.Windows.Forms.ToolStripMenuItem miAddFavorite;
         private System.Windows.Forms.ToolStripMenuItem miRemoveFavorite;
+        private System.Windows.Forms.ToolStripMenuItem miDeleteNewsItem;
+        private System.Windows.Forms.Button btnRefreshNews;
+        private System.Windows.Forms.Label lblFilterLabel;
+        private System.Windows.Forms.Label lblFilterName;
+        private System.Windows.Forms.Label lblFeedLabel;
+        private System.Windows.Forms.Label lblFeedName;
     }
 }
 

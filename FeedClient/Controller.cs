@@ -12,6 +12,7 @@ namespace FeedClient
     public class Controller
     {
 
+        private readonly FeedReader feedReader = new FeedReader();
         private readonly UserDAO userDAO = new UserDAO();
         private readonly FeedDAO feedDAO = new FeedDAO();
         private readonly NewsDAO newsDAO = new NewsDAO();
@@ -29,6 +30,7 @@ namespace FeedClient
                 if (user == null)
                 {
                     MessageBox.Show("Usuario o contraseña no válidos", "Error de autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
                 }
                 return true;
             }
@@ -37,6 +39,22 @@ namespace FeedClient
                 MessageBox.Show("Ha ocurrido un error", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        public bool CheckUsernameExists(string username)
+        {
+            return userDAO.CheckUsernameExists(username);
+        }
+
+        public void RegisterUser(string name, string username, string password)
+        {
+            User user = new User()
+            {
+                Name = name,
+                Username = username
+            };
+
+            userDAO.Add(user, password);
         }
 
         public List<Feed> FindUserFeeds()
@@ -52,10 +70,75 @@ namespace FeedClient
             }
         }
 
+        public string GetFeedName(string feedUrl)
+        {
+            return feedReader.GetName(feedUrl);
+        }
+
+        public void ReadNewsFromFeeds()
+        {
+            List<Feed> feeds = feedDAO.FindAllByUser(user);
+
+            if(feeds.Count == 0)
+            {
+                return;
+            }
+
+            List<Feed> errorFeeds = new List<Feed>();
+
+            List<NewsItem> newsItems = feeds.SelectMany(feed =>
+            {
+                try
+                {
+                    return feedReader.GetNews(feed);
+                } catch(Exception)
+                {
+                    errorFeeds.Add(feed);
+                    return new List<NewsItem>();
+                }
+            }).ToList();
+
+            if(errorFeeds.Count > 0)
+            {
+                string feedNames = string.Join(", ", errorFeeds.Select(feed => feed.Name));
+                MessageBox.Show("Ha ocurrido un error leyendo las noticias de las siguientes fuentes: " + feedNames, "Error inesperado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if(newsItems.Count == 0)
+            {
+                return;
+            }
+
+            Dictionary<long, HashSet<string>> newsItemGuidsByFeed = newsDAO.FindExistingNewsItemGuidsGroupedByFeed(user);
+
+            foreach (NewsItem newsItem in newsItems)
+            {
+
+                long feedId = newsItem.Feed.Id.Value;
+                string guid = newsItem.Guid;
+
+                // Si no hay noticias de este feed, o bien las hay pero esta no se encuentra entre ellas,
+                // insertamos dicha noticia en base de datos (es una noticia nueva).
+                if (!newsItemGuidsByFeed.ContainsKey(feedId) || !newsItemGuidsByFeed[feedId].Contains(guid))
+                {
+                    newsDAO.Add(newsItem);
+                }
+            }
+        }
+
         public List<NewsItem> FindUserNews()
         {
-            // FIXME meter try-catch
             return newsDAO.FindAllByUser(user);
+        }
+
+        public List<NewsItem> FindUserNewsByFeed(Feed feed)
+        {
+            return newsDAO.FindAllByUserAndFeed(user, feed);
+        }
+
+        public List<NewsItem> FindUserNewsByFilter(Filter filter)
+        {
+            return newsDAO.FindAllByUserAndFilter(user, filter);
         }
 
         public void MarkAsUnread(NewsItem newsItem, bool unread)
@@ -70,11 +153,11 @@ namespace FeedClient
             {
                 newsDAO.MarkAsRead(newsItem);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // Si se produce un error, dejamos la noticia como estaba
                 newsItem.Unread = !unread;
-                // FIXME mostrar mensaje de error
+                throw e;
             }
         }
 
@@ -85,17 +168,76 @@ namespace FeedClient
                 return;
             }
 
-            newsItem.Unread = favorite;
+            newsItem.Favorite = favorite;
             try
             {
-                newsDAO.MarkAsRead(newsItem);
+                newsDAO.MarkAsFavorite(newsItem);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // Si se produce un error, dejamos la noticia como estaba
-                newsItem.Unread = !favorite;
-                // FIXME mostrar mensaje de error
+                newsItem.Favorite = !favorite;
+                throw e;
             }
+        }
+
+        public void DeleteNewsItem(NewsItem newsItem)
+        {
+            newsDAO.Delete(newsItem);
+        }
+
+        public Feed AddFeed(string name, string url)
+        {
+            Feed feed = new Feed
+            {
+                Name = name,
+                Url = url,
+                User = user
+            };
+
+            feedDAO.Add(feed);
+
+            return feed;
+        }
+
+        public void UpdateFeed(Feed feed)
+        {
+            feedDAO.Update(feed);
+        }
+
+        public void DeleteFeeds(List<Feed> feeds)
+        {
+            feedDAO.Delete(feeds);
+        }
+
+        public List<Filter> FindUserFilters()
+        {
+            return filterDAO.FindAllByUser(user);
+        }
+
+        public Filter AddFilter(string name, string text, List<Feed> feeds)
+        {
+            Filter filter = new Filter
+            {
+                Name = name,
+                Text = text,
+                Feeds = feeds,
+                User = user
+            };
+
+            filterDAO.Add(filter);
+
+            return filter;
+        }
+
+        public void UpdateFilter(Filter filter)
+        {
+            filterDAO.Update(filter);
+        }
+
+        public void DeleteFilters(List<Filter> filters)
+        {
+            filterDAO.Delete(filters);
         }
 
     }

@@ -44,18 +44,16 @@
             this.label1.Location = new System.Drawing.Point(30, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 20);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 4;
             this.label1.Text = "Usuario";
             // 
             // txtUsername
             // 
             this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUsername.Location = new System.Drawing.Point(137, 43);
-            this.txtUsername.Multiline = true;
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(260, 29);
-            this.txtUsername.TabIndex = 1;
-            this.txtUsername.Text = "jonifer";
+            this.txtUsername.Size = new System.Drawing.Size(260, 26);
+            this.txtUsername.TabIndex = 0;
             // 
             // txtPassword
             // 
@@ -65,8 +63,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '•';
             this.txtPassword.Size = new System.Drawing.Size(260, 29);
-            this.txtPassword.TabIndex = 3;
-            this.txtPassword.Text = "abc123.";
+            this.txtPassword.TabIndex = 1;
             // 
             // label2
             // 
@@ -75,7 +72,7 @@
             this.label2.Location = new System.Drawing.Point(30, 128);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(92, 20);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 5;
             this.label2.Text = "Contraseña";
             // 
             // btnLogin
@@ -85,18 +82,17 @@
             this.btnLogin.Location = new System.Drawing.Point(137, 187);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(102, 26);
-            this.btnLogin.TabIndex = 5;
+            this.btnLogin.TabIndex = 2;
             this.btnLogin.Text = "Inicio de sesión";
             this.btnLogin.UseVisualStyleBackColor = true;
             // 
             // btnRegister
             // 
-            this.btnRegister.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegister.Location = new System.Drawing.Point(298, 187);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(102, 26);
-            this.btnRegister.TabIndex = 6;
+            this.btnRegister.TabIndex = 3;
             this.btnRegister.Text = "Registrarse";
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.BtnRegister_Click);

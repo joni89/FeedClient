@@ -56,13 +56,22 @@ namespace ManagementList
         private void BtnDelete_Click(object sender, EventArgs e)
         {
 
-            if (listItems.SelectedIndices.Count == 0)
+            int selectedItemsCount = listItems.SelectedIndices.Count;
+
+            if (selectedItemsCount == 0)
             {
                 MessageBox.Show("Debe seleccionar al menos un elemento", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                InvokeButtonClickEvent(ActionButton.DELETE);
+                if (MessageBox.Show("¿Desea eliminar " + (selectedItemsCount > 1 ? "los elementos seleccionados" : "el elemento seleccionado") + "?"
+                    , "Salir"
+                    , MessageBoxButtons.OKCancel
+                    , MessageBoxIcon.Question)
+                    == DialogResult.OK)
+                {
+                    InvokeButtonClickEvent(ActionButton.DELETE);
+                }
             }
         }
 
@@ -122,6 +131,8 @@ namespace ManagementList
         }
 
         public ActionButton Button => button;
+
+        public int SelectedIndex => selectedIndices[0];
 
         public int[] SelectedIndices => selectedIndices;
     }

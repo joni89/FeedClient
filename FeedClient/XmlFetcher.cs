@@ -14,32 +14,23 @@ namespace FeedClient
 
         public XmlDocument Fetch(string url)
         {
-            HttpWebResponse response = null;
-            Stream dataStream = null;
-            StreamReader reader = null;
+            WebRequest request = WebRequest.Create(url);
 
-            try
+            using(HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
-                WebRequest request = WebRequest.Create(url);
+                using (Stream dataStream = response.GetResponseStream())
+                {
+                    using (StreamReader reader = new StreamReader(dataStream, Encoding.GetEncoding(response.CharacterSet)))
+                    {
+                        string contents = reader.ReadToEnd();
 
-                response = (HttpWebResponse)request.GetResponse();
-                dataStream = response.GetResponseStream();
-                reader = new StreamReader(dataStream);
+                        XmlDocument document = new XmlDocument();
+                        document.LoadXml(contents);
 
-                string contents = reader.ReadToEnd();
-
-                XmlDocument document = new XmlDocument();
-                document.LoadXml(contents);
-
-                return document;
-            }
-            finally
-            {
-                reader?.Close();
-                dataStream?.Close();
-                response?.Close();
+                        return document;
+                    }
+                }
             }
         }
-
     }
 }

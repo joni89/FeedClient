@@ -76,9 +76,9 @@ namespace FeedClient.DB
 	                feeds.url AS feed_url
                 FROM
 	                filters
-	                INNER JOIN feed_filters
+	                LEFT JOIN feed_filters
 		                ON filters.id = feed_filters.filter_id
-	                INNER JOIN feeds
+	                LEFT JOIN feeds
 		                ON feed_filters.feed_id = feeds.id
                 WHERE
 	                filters.user_id = :user_id
@@ -111,7 +111,10 @@ namespace FeedClient.DB
                             resultsById.Add(filterId, filter);
                         }
 
-                        filter.Feeds.Add(RowReader.ReadFeed(reader, user, "feed_"));
+                        if (!reader.IsDBNull(reader.GetOrdinal("feed_id")))
+                        {
+                            filter.Feeds.Add(RowReader.ReadFeed(reader, user, "feed_"));
+                        }
                     }
 
                     return results;
@@ -175,6 +178,30 @@ namespace FeedClient.DB
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.Add(new SQLiteParameter("id", id));
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void Delete(List<Filter> filters)
+        {
+            Delete(filters.Select(filter => filter.Id.Value).ToList());
+        }
+
+        public void Delete(List<long> ids)
+        {
+            var connection = DataBase.GetConnection();
+
+            string parameterNames = string.Join(",", ids.Select((filter, index) => ":filter_id_" + index));
+
+            string sql = "DELETE FROM filters WHERE id IN (" + parameterNames + ")";
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                for (int i = 0; i < ids.Count; ++i)
+                {
+                    command.Parameters.Add(new SQLiteParameter("filter_id_" + i, ids[i]));
+                }
 
                 command.ExecuteNonQuery();
             }

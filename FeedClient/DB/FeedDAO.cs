@@ -88,5 +88,29 @@ namespace FeedClient.DB
                 command.ExecuteNonQuery();
             }
         }
+
+        public void Delete(List<Feed> feeds)
+        {
+            Delete(feeds.Select(feed => feed.Id.Value).ToList());
+        }
+
+        public void Delete(List<long> ids)
+        {
+            var connection = DataBase.GetConnection();
+
+            string parameterNames = string.Join(",", ids.Select((feed, index) => ":feed_id_" + index));
+
+            string sql = "DELETE FROM feeds WHERE id IN (" + parameterNames  + ")";
+
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                for (int i = 0; i < ids.Count; ++i)
+                {
+                    command.Parameters.Add(new SQLiteParameter("feed_id_" + i, ids[i]));
+                }
+
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

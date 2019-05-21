@@ -30,7 +30,7 @@ namespace FeedClient.DB
                 Guid = reader[prefix + "guid"].ToString(),
                 Title = reader[prefix + "title"].ToString(),
                 Contents = reader[prefix + "contents"].ToString(),
-                Datetime = Convert.ToDateTime(reader[prefix + "datetime"]),
+                Datetime = reader.IsDBNull(reader.GetOrdinal(prefix + "datetime")) ? (DateTime?)null : Convert.ToDateTime(reader[prefix + "datetime"]),
                 Url = reader[prefix + "url"].ToString(),
                 Feed = ReadFeed(reader, user, prefix + "feed_"),
                 Favorite = Convert.ToBoolean(reader[prefix + "favorite"]),

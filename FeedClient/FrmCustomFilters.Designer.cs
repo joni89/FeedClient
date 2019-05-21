@@ -35,13 +35,15 @@
             // 
             // btnApply
             // 
+            this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnApply.Location = new System.Drawing.Point(294, 218);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(80, 26);
-            this.btnApply.TabIndex = 2;
+            this.btnApply.TabIndex = 1;
             this.btnApply.Text = "Aplicar";
             this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.BtnApply_Click);
             // 
             // managementList
             // 
@@ -49,7 +51,7 @@
             this.managementList.Location = new System.Drawing.Point(0, 2);
             this.managementList.Name = "managementList";
             this.managementList.Size = new System.Drawing.Size(406, 314);
-            this.managementList.TabIndex = 11;
+            this.managementList.TabIndex = 0;
             this.managementList.ButtonClickEvent += new System.EventHandler<ManagementList.ButtonClickEventArgs>(this.ManagementList_ButtonClickEvent);
             // 
             // FrmCustomFilters

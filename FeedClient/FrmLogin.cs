@@ -12,15 +12,18 @@ namespace FeedClient
 {
     public partial class FrmLogin : Form
     {
-        public FrmLogin()
+        private Controller controller;
+
+        public FrmLogin(Controller controller)
         {
+            this.controller = controller;
             InitializeComponent();
         }
 
         private void BtnRegister_Click(object sender, EventArgs e)
         {
-            new FrmRegister().ShowDialog();
-
+            var answer = new FrmRegister(controller).ShowDialog();
+            Console.WriteLine("Answer: " + answer);
         }
     }
 }
