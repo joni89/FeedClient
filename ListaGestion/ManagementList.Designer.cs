@@ -44,9 +44,10 @@
             this.listItems.Location = new System.Drawing.Point(12, 12);
             this.listItems.Name = "listItems";
             this.listItems.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listItems.Size = new System.Drawing.Size(250, 290);
+            this.listItems.Size = new System.Drawing.Size(250, 238);
             this.listItems.TabIndex = 0;
             this.listItems.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListItems_DrawItem);
+            this.listItems.SelectedValueChanged += new System.EventHandler(this.ListItems_SelectedValueChanged);
             // 
             // btnDelete
             // 

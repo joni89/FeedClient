@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace ManagementList
 {
@@ -25,6 +26,9 @@ namespace ManagementList
         [Description("Evento de cambio sobre una propiedad del componente")]
         [DisplayName("Property Changed")]
         public event EventHandler<PropertyChangeEventArgs> PropertyChangeEvent;
+
+        private const int PenWidth = 1;
+        private const int RectangleHeight = 40;
 
         private Color listColor = Color.Black;
 
@@ -198,6 +202,29 @@ namespace ManagementList
             }
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            Pen pen = new Pen(Color.Black, PenWidth);
+
+            int marginX = listItems.Location.X;
+            int marginY = listItems.Location.Y;
+
+            Rectangle rectArea = new Rectangle(marginX, this.Height - RectangleHeight - marginY, listItems.Width, RectangleHeight);
+
+            Rectangle textRectArea = new Rectangle(rectArea.X, rectArea.Y, rectArea.Width, rectArea.Height);
+            textRectArea.Inflate(-12, -12);
+
+            Font font = new Font("Arial", 10);
+
+            g.DrawRectangle(pen, rectArea);
+            g.DrawString("Elementos seleccionados: " + listItems.SelectedIndices.Count, font, Brushes.Black, textRectArea);
+        }
+
         private void BtnAdd_Click(object sender, EventArgs e)
         {
             InvokeButtonClickEvent(ActionButton.ADD);
@@ -285,6 +312,11 @@ namespace ManagementList
 
             e.Graphics.DrawString(strItem, listItems.Font, brush, e.Bounds);
             e.DrawFocusRectangle();
+        }
+
+        private void ListItems_SelectedValueChanged(object sender, EventArgs e)
+        {
+            this.Refresh();
         }
     }
 
