@@ -36,15 +36,21 @@
             // 
             // listItems
             // 
+            this.listItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listItems.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.listItems.FormattingEnabled = true;
             this.listItems.Location = new System.Drawing.Point(12, 12);
             this.listItems.Name = "listItems";
             this.listItems.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listItems.Size = new System.Drawing.Size(250, 290);
             this.listItems.TabIndex = 0;
+            this.listItems.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListItems_DrawItem);
             // 
             // btnDelete
             // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.Location = new System.Drawing.Point(294, 115);
             this.btnDelete.Name = "btnDelete";
@@ -56,6 +62,7 @@
             // 
             // btnEdit
             // 
+            this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEdit.Location = new System.Drawing.Point(294, 165);
             this.btnEdit.Name = "btnEdit";
@@ -67,6 +74,7 @@
             // 
             // btnAdd
             // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAdd.Location = new System.Drawing.Point(294, 65);
             this.btnAdd.Name = "btnAdd";
